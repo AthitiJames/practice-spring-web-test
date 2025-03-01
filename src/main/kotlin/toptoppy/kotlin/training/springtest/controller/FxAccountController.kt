@@ -15,5 +15,5 @@ class FxAccountController (
 ){
 
     @GetMapping("/{accountNumber}/balance-thb")
-    fun getBalanceThaiBath(@PathVariable accountNumber: String): ResponseEntity<AccountBalanceResponse> = fxAccountService.getBalanceThaiBath(accountNumber)
+    fun getBalanceByAccountNumber(@PathVariable accountNumber: String): AccountBalanceResponse = fxAccountService.getAccountBalanceOf(accountNumber)
 }
