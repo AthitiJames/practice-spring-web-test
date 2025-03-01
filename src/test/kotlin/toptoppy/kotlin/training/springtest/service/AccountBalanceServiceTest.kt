@@ -7,18 +7,23 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import toptoppy.kotlin.training.springtest.dto.AccountBalanceResponse
 import toptoppy.kotlin.training.springtest.repository.ExchangeRateRepository
+import toptoppy.kotlin.training.springtest.repository.FxAccountRepository
 
 
 class AccountBalanceServiceTest {
 
     lateinit var service: AccountBalanceService
     lateinit var exchangeRateRepository: ExchangeRateRepository
+    lateinit var fxAccountRepository: FxAccountRepository
 
     @BeforeEach
     fun setup() {
         exchangeRateRepository = mockk(relaxed = true)
+        fxAccountRepository = mockk(relaxed = true)
+
         service = AccountBalanceService(
-            exchangeRateRepository
+            exchangeRateRepository,
+            fxAccountRepository
         )
     }
 
@@ -32,10 +37,10 @@ class AccountBalanceServiceTest {
         val result = service.getAccountBalanceOf("A123")
 
         assertEquals( result,
-            AccountBalanceResponse(3500.0)
-        )
+            AccountBalanceResponse(3500.0))
 
         verify { exchangeRateRepository.findByCurrency("USD") }
+        verify { fxAccountRepository.findByAccountId("A123") }
     }
 
 }
